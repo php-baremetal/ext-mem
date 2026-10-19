@@ -1,0 +1,23 @@
+/*
+   +----------------------------------------------------------------------+
+   | php-baremetal: ext-mem                                               |
+   +----------------------------------------------------------------------+
+   | Copyright (c) 2026 Gianfrancesco Aurecchia                           |
+   +----------------------------------------------------------------------+
+   | This source file is subject to the MIT license, that is bundled with |
+   | this package in the file LICENSE.                                    |
+   +----------------------------------------------------------------------+
+   | Authors: Gianfrancesco Aurecchia <gianfri@aurecchia.com>             |
+   +----------------------------------------------------------------------+
+*/
+
+/* mem_*: in-RAM key-value store. */
+#ifndef PHP_MEM_H
+#define PHP_MEM_H
+
+#include "php.h"
+
+extern zend_module_entry mem_module_entry;
+#define phpext_mem_ptr (&mem_module_entry)
+
+#endif /* PHP_MEM_H */
