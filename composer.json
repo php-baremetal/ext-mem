@@ -14,7 +14,8 @@
     },
     "extra": {
         "baremetal": {
-            "module": "mem"
+            "module": "mem",
+            "ide-stubs": ["ide/ext-mem.stub"]
         }
     }
 }

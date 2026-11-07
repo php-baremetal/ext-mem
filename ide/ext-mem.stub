@@ -1,0 +1,85 @@
+<?php
+// php-baremetal/ext-mem 1.1.0 — IDE helper, not loaded at runtime.
+
+namespace {
+    /**
+     * Stores a serialized copy of a value under a key, replacing any previous value; later changes to the variable
+     * do not change the store.
+     *
+     * @param string $key A non-empty key: no length cap, no character restriction, binary-safe. An int is coerced
+     *                    to its string form unless strict_types is on.
+     * @param mixed $value Any value serialize() accepts: null, scalars, arrays, objects of serializable classes. A
+     *                     resource does not throw: it is stored as the integer 0.
+     * @return bool true on success; false for an empty key or a value that serialized to nothing.
+     * @throws \TypeError When $key is not a string (or coercible to one).
+     * @throws \ArgumentCountError When called with other than two arguments.
+     * @throws \Exception When the value cannot be serialized (a Closure, a Generator or any object whose class
+     *                    forbids serialization), for example "Serialization of 'Closure' is not allowed".
+     */
+    function mem_set(string $key, mixed $value): bool {}
+
+    /**
+     * Rebuilds the value stored under a key as a new, independent PHP value.
+     *
+     * Each call builds a new copy; changing it does not touch the store until it is stored again with mem_set().
+     * Objects are rebuilt with the normal unserialize rules; the class must be defined or autoloadable in the
+     * reading request, otherwise the result is a __PHP_Incomplete_Class. Use mem_has() to tell a stored null (or
+     * false) from a missing key.
+     *
+     * @param string $key The key to read.
+     * @param mixed $default Returned when the key is absent, when $key is empty, or when the stored bytes cannot
+     *                       be unserialized.
+     * @return mixed A fresh copy of the stored value, or $default.
+     * @throws \TypeError When $key is not a string (or coercible to one).
+     * @throws \ArgumentCountError When called with fewer than one or more than two arguments.
+     */
+    function mem_get(string $key, mixed $default = null): mixed {}
+
+    /**
+     * Tells whether a key is in the table, without reading its value.
+     *
+     * @param string $key The key to look for.
+     * @return bool true if the key is stored (even when its value cannot be rebuilt); false otherwise or for an
+     *              empty key.
+     * @throws \TypeError When $key is not a string (or coercible to one).
+     * @throws \ArgumentCountError When called with other than one argument.
+     */
+    function mem_has(string $key): bool {}
+
+    /**
+     * Removes a key and frees its memory.
+     *
+     * @param string $key The key to remove.
+     * @return bool true if the key existed and was removed; false if it did not exist or the key is empty.
+     * @throws \TypeError When $key is not a string (or coercible to one).
+     * @throws \ArgumentCountError When called with other than one argument.
+     */
+    function mem_delete(string $key): bool {}
+
+    /**
+     * Removes every key and frees every value.
+     *
+     * @return bool true.
+     * @throws \ArgumentCountError When called with arguments.
+     */
+    function mem_clear(): bool {}
+
+    /**
+     * Lists the keys currently stored, in insertion order.
+     *
+     * Overwriting a key keeps its position; deleting and setting it again moves it to the end. Numeric-looking
+     * keys stay strings ('42', not 42).
+     *
+     * @return array A list (0 to n-1) of the keys as strings; [] when the table is empty.
+     * @throws \ArgumentCountError When called with arguments.
+     */
+    function mem_keys(): array {}
+
+    /**
+     * Tells that the extension is in the firmware; without ext-mem the function does not exist.
+     *
+     * @return bool true whenever the extension is built in.
+     * @throws \ArgumentCountError When called with arguments.
+     */
+    function mem_available(): bool {}
+}
